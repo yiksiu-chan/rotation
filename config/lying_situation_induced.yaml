@@ -1,0 +1,45 @@
+# Override config for the 'lying_situation_induced' task (cais/MASK known_facts).
+# Only the fields that differ from default.yaml are listed here; everything
+# else (including pca_plot_style, manifold_plot_style, gt_labels,
+# experiment_system_prompts, mask_hf_*, ...) is inherited via deep-merge.
+#
+# Run with:
+#   python src/run_pipeline.py --config config/default.yaml \
+#     --config_override config/lying_situation_induced.yaml
+
+
+task_setup:
+  task: lying_situation_induced
+  dataset: known_facts # known_facts or provided_facts
+
+prompt:
+  user_prompt: ""
+  answer_prefix: "The answer is"
+
+# Note: this task has no shared user_prompt. The user-turn body is
+# the per-row dataset['user_prompt'], and the experiment system prompt is the
+# per-row dataset['system_prompt']. apply_chat_template branches on cfg.task
+# to read both from StatementRecord.meta. The control system prompt is the
+# shared honest one inherited from default.yaml's control_system_prompt_map.
+
+behavior:
+  balanced_set_size_behavior: -1  # -1 means no sampling, use all data
+
+cache:
+  n_sample_cache: -1  # -1 means no filtering, use all data
+
+variants:
+  end_variant: 0  # single placeholder variant; experiment sys prompt is per-row
+
+pca_plots:
+  # Master toggle for the per-layer PCA grid.
+  save_PCA_plots: true
+
+paper_plots:
+  paper_plots_to_generate:
+    behavior_bar_box: true
+    cos_sim_heatmap: false
+    best_token_position: false
+    rotation_distribution: false
+    accuracy_vs_rotation_scatter: false
+    cross_dataset_scatter: false

@@ -1,0 +1,11 @@
+# Portable counterpart of lying.yaml for the rebuttal experiments.
+task_setup:
+  task: lying
+  dataset: azaria-mitchell
+paths:
+  output_root_relative: results/runs
+  plot_root_relative: results/plots
+# Curated 20-prompt subset used by every activation-patching step script as
+# the "--variants" default (single source of truth; see ExperimentConfig
+# .default_patching_variants for who reads this).
+default_patching_variants: "45,26,42,14,33,76,47,22,43,23,4,19,27,17,32,36,64,48,69,66"

@@ -1,0 +1,327 @@
+# Configuration for src/run_microscopic.py.
+#
+# Self-contained: not merged into ExperimentConfig. The entry point reads
+# this file directly. The CLI accepts a small override allow-list
+# (--task_vector_data_folder, --targets_data_folder, --output_dir,
+# --plot_kinds, --formats) which override the matching keys here; every
+# other knob lives only in this file.
+#
+# Paths are absolute, or relative to PROJECT_ROOT. The ``output_dir``
+# supports the literal placeholders ``<model_alias>``, ``<task_dataset>``,
+# ``<sys_prompt_segment>``, ``<seed>``, ``<task_vector_alias>``.
+
+# ------------------------------------------------------------------- #
+# I/O                                                                 #
+# ------------------------------------------------------------------- #
+io:
+  # Cache-run folder providing the *control* activations used to compute
+  # the per-(position, layer) truth direction. Point at the seed-level
+  # directory (the one containing 'activations/'). Required (set here or
+  # pass --task_vector_data_folder on the CLI).
+  task_vector_data_folder: null
+  # One or more cache-run folders whose datapoints will be projected onto
+  # the truth direction and drawn as 2D layer trajectories. One set of
+  # figures is written per folder. May overlap with task_vector_data_folder.
+  # Required (set here or pass --targets_data_folder on the CLI).
+  targets_data_folder: []
+  # Optional per-subplot overrides applied ONLY to the trajectory_axis
+  # right-column subplot (the mean+individuals overlay). Both default to
+  # ``null`` = use the current ``targets_data_folder`` entry (legacy
+  # behavior; both subplots share one folder per loop iteration).
+  #
+  # Each takes a SINGLE folder, not a list. When set, that folder's
+  # activations drive the corresponding right-column trace; the left column
+  # ("per-target sample trajectories") and every other plot kind keep
+  # following ``targets_data_folder``.
+  #
+  # Token-position resolution when either override is active:
+  #   - Explicit ``token_positions.targets`` non-empty → use that list for
+  #     both mean and individuals (same slicing, one figure per position).
+  #   - Otherwise → resolve ``best_n_targets`` positions independently from
+  #     each folder's own ``stage_stats/rotation_stats.json`` and emit the
+  #     cross product (one figure per (mean_pos × individual_pos) pair).
+  targets_data_folder_mean: null
+  targets_data_folder_individual: null
+  # Output root. Each task-vector folder gets a
+  # <task_dataset>_SysPrompt<NNN>_seed<seed> subdirectory under
+  # 'projection/', 'trajectory/', 'trajectory_axis/', etc.
+  output_dir: /oscar/data/superlab/projects/Rotation/results/plots/<model_alias>/microscopic
+  # Output image formats applied to all plot kinds. Pass 'html' for
+  # interactive 3D manifold / 3D trajectory_axis scatters.
+  formats: [svg]
+
+# ------------------------------------------------------------------- #
+# Project-level ExperimentConfig                                      #
+# ------------------------------------------------------------------- #
+# Optional config YAML merged on top of config/default.yaml. Used only
+# to inherit rotation_metric (for ranked_token_pos lookup) and
+# gt_0_label_map / gt_1_label_map (for the legend).
+config_override: null
+
+# Which rotation_metric drives the 'top-N token position' lookup in
+# stage_stats/rotation_stats.json. null = inherit from config_override /
+# config/default.yaml (project default: largest_drop_any_early_to_late).
+# Valid: late_layer_anti_alignment | largest_drop_any_early_to_late |
+# largest_drop_any_early_to_late_signed.
+rotation_metric: null
+
+# ------------------------------------------------------------------- #
+# Token positions                                                     #
+# ------------------------------------------------------------------- #
+token_positions:
+  # Position labels for the *task-vector* truth direction. The sentinel
+  # ["-1"] means "use the top-1 from the task-vector folder's
+  # ranked_token_pos_<rotation_metric>". One figure set per position.
+  task_vector: ["-1"]
+  # Explicit *targets-side* token-position labels (e.g. 'prompt-1',
+  # 'prompt', 'gen+1'). Combined with best_n_targets; duplicates removed
+  # while preserving order.
+  targets: []
+  # Pull the top-N token positions from each targets folder's
+  # stage_stats/rotation_stats.json (ranked_token_pos_<metric>). Combined
+  # with token_positions.targets. Set 0 to disable. The task-vector
+  # folder always uses its own top-1 — no equivalent knob on the TV side.
+  best_n_targets: 1
+
+# ------------------------------------------------------------------- #
+# Targets                                                             #
+# ------------------------------------------------------------------- #
+# The highlighted (group, sample) pairs drawn on every plot kind
+# (projection, trajectory, trajectory_axis, trajectory_axis_polar,
+# manifold) are built as the cross product of `GT` × `group` × `idx`.
+# The resulting filename receives a `_GT<...>` suffix derived from
+# `GT` (`_GT0`, `_GT1`, or `_GT0-1` when both are listed).
+targets:
+  # Subset of ground-truth labels to include. Valid: GT_0, GT_1.
+  GT: [GT_1]
+  # Subset of categories. Valid: control, experiment, experiment_fail.
+  group: [control, experiment, experiment_fail]
+  # Sample indices. One trace per (GT, group, idx) combination.
+  idx: [0]
+
+
+# ------------------------------------------------------------------- #
+# Plot-kind selection                                                 #
+# ------------------------------------------------------------------- #
+# Which plot kinds to render. 'trajectory_axis' is the DiM-axis
+# trajectory plot (controlled by trajectory_axis.axes); add it
+# explicitly to opt in. 'trajectory_axis_polar' renders the polar /
+# spherical twin (axes with 2 or 3 entries; 3 axes emit a 3D plot).
+# Valid: manifold, trajectory, trajectory_axis, trajectory_axis_polar,
+# projection.
+plot_kinds: [trajectory_axis, projection]
+
+# Variance band for the projection-line plots: 1-σ (std), SEM, or
+# 1.96·SEM (ci95). NOTE: as of this refactor, the trajectory_axis
+# per-class mean subplot no longer uses band_kind — it overlays
+# individuals on the mean (see trajectory_axis.* below).
+band_kind: std
+
+# How GT_0 vs GT_1 is encoded in the projection-line plots.
+# 'line_style' = solid (GT_1) / dashed (GT_0);
+# 'marker_shape' = circle (GT_1) / x (GT_0) markers on solid lines.
+gt_style: line_style
+
+# ------------------------------------------------------------------- #
+# Projection plots                                                    #
+# ------------------------------------------------------------------- #
+projection:
+  # Inclusive layer range for the projection-line plot. -1 = no bound.
+  start_layer: -1
+  end_layer: -1
+  # Append one extra row per token position showing rotation
+  # cos_sim_across_layers from stage_stats/rotation_stats.json. Cols 1
+  # & 3 show the curve for the target folder's own SysPrompt; cols 2 &
+  # 4 show the mean ± band across sibling SysPrompt*/<seed>/ folders.
+  include_rotation_cos_sim_curves: false
+  rotation_cos_sim_line_color: black
+  rotation_cos_sim_band_color: grey
+
+# ------------------------------------------------------------------- #
+# Trajectory plots (2D background+target traversals)                  #
+# ------------------------------------------------------------------- #
+trajectory:
+  # Which task_vector_residualPC variants to render as columns.
+  # 'raw' = raw PC1/PC2; 'unit_x' = task vector forced to +x;
+  # 'unit_xy' = + scale-normalized y. Empty = drop the residualPC block.
+  residualPC_variants: [raw, unit_x, unit_xy]
+  # Which task_vector_realignment variants to render as columns.
+  # 'raw_projection' = (a·u_t, a·u_perp); 'cosine_similarity' = same
+  # divided by ‖a‖ (per row). Empty = drop the realignment block.
+  realignment_variants: [raw_projection, cosine_similarity]
+  # Render the per-cell in-plane-fraction footnote on each realignment
+  # cell (diagnostic for how much of the task vector lives in the top-2
+  # PC plane).
+  realignment_footnote: false
+  # One trajectory figure per listed background value × set-layer.
+  # 'none' = targets only; 'control' = control groups (both GTs);
+  # 'success_only' = all four success groups; 'all' = success_only +
+  # lie_fail.
+  background: [success_only, all]
+  # Absolute layer indices used to anchor the trajectory plot's
+  # background scatter. Each entry produces a separate trajectory
+  # figure (filename encodes 'setL{L}'). Empty = no trajectory plots.
+  set_layer: []
+  # Draw a layer-shaded arrow from the origin to the task vector tip in
+  # every trajectory cell.
+  task_vector_arrow: false
+  # Render every background scatter (manifold + trajectory) as uniform
+  # light-grey instead of per-group color. Targets keep their colors.
+  bg_grey_scale: false
+  # Inclusive layer range for trajectory plots.
+  start_layer: -1
+  end_layer: -1
+  # Optional fixed axis ranges for every trajectory cell. Same range is
+  # forced on every column, so variants on different scales share it.
+  # Use [MIN, MAX] or null for auto.
+  xlim: null
+  ylim: null
+
+# ------------------------------------------------------------------- #
+# trajectory_axis plots (DiM-axis trajectories, 2-column figure)      #
+# ------------------------------------------------------------------- #
+# Left column = per-target sample trajectories; right column = bold
+# per-class mean overlaid on a seeded subsample of individual
+# trajectories. Three knobs (max_target_per_class, line_width_individual,
+# line_width_mean) control the right-column overlay across 1D / 2D / 3D.
+trajectory_axis:
+  # Plotting library. ``plotly``  or ``matplotlib`` 
+  library: matplotlib
+  # One axis-set entry per element. Each entry lists 1–3 axis names from
+  # AXIS_REGISTRY (currently: honest-lie, honest_T-F, lie_success-fail),
+  # comma-joined. Each entry produces one figure per target token
+  # position in its own 'axes_<a>__<b>[__<c>]/' subfolder. Specifying 3
+  # names emits a 3D plot 
+  axes: 
+    - "lie_success-fail, honest_T-F, honest-lie, "  
+  start_layer: -1
+  end_layer: 13
+  # Optional per-source layer windows for the right subplot only.
+  # ``start_layer`` / ``end_layer`` above continue to drive the left
+  # subplot (per-target sample). The four keys below let the mean line
+  # and the faint per-sample overlay each pick their own window:
+  #   start_layer_mean / end_layer_mean       → bold per-class mean trace
+  #   start_layer_individual / end_layer_individual → faint individual overlays
+  # ``null`` (default) falls back to start_layer / end_layer above.
+  # Use ``-1`` on either side to mean "no bound on that side". Mismatched
+  # ranges show in the title as ``L(left)=… | L(mean)=… | L(indiv)=…``.
+  # start_layer_mean: null
+  # end_layer_mean: 13
+  # start_layer_individual: null
+  # end_layer_individual: 13
+  # Cap on per-class individual trajectories drawn under the mean.
+  # -1 = draw every sample. When a class has more samples than this,
+  # a seeded random subset is drawn (sample_seed below).
+  max_target_per_class: 20
+  # Line width for the faint per-sample overlay traces.
+  line_width_individual: 0.5
+  # Line width for the bold per-class mean trace.
+  line_width_mean: 1.5
+  # Uniform marker size for the left (per-target sample) and right
+  # (per-class mean) subplots. In Plotly pixel units / matplotlib points
+  # (``markersize`` for 1D ``plot`` traces, ``s = value**2`` for 2D / 3D
+  # ``scatter`` since ``s`` is area in points²). ``null`` (default) keeps
+  # the legacy per-dimension defaults (left: 1D=6, 2D=7, 3D=4; right:
+  # 1D=6, 2D=8, 3D=5). CLI overrides:
+  # ``--trajectory_axis_marker_size_target``,
+  # ``--trajectory_axis_marker_size_mean``.
+  marker_size_target: null
+  marker_size_mean: null
+
+  individual_line_alpha: 0.4
+  # 3D scenes only: show Plotly's default cube back-walls. ``true`` keeps
+  # the opaque colored panels behind the data (the default look); set to
+  # ``false`` to hide them — fixes the "white wall" artifact in static
+  # SVG export where the panels render as flat opaque white. Has no
+  # effect on 1D / 2D plots.
+  scene_show_walls: true
+  # 3D scenes only; ignored when scene_show_walls is false. CSS color
+  # string forced onto every scene-axis backgroundcolor so the walls
+  # show up as that color in static (SVG/PNG) export instead of
+  # blending into the white paper background. ``null`` = let Plotly
+  # pick its default (light-grey that often rasterizes as near-white
+  # in SVG). Try e.g. "rgb(220,220,220)" or "rgb(235,235,245)".
+  # scene_wall_color: "rgb(220,220,220)"
+
+  # 2D / 3D only. Master switch for the per-layer marker shading on
+  # *both* subplots (left = per-target sample, right = per-class mean).
+  # ``true`` (default) shades each marker by layer index along a
+  # white→class-color gradient; ``false`` paints every marker the flat
+  # class color and ignores ``marker_gradient_start``. 1D has no
+  # gradient regardless of this setting.
+  marker_layer_gradient: false
+  # 2D / 3D only. Where the per-marker depth gradient on the mean line
+  # *starts* along the white→class_color axis. Ignored when
+  # ``marker_layer_gradient: false``. ``0.0`` = pure white at the first
+  # layer (legacy look — early markers look like white blobs in static
+  # SVG). ``1.0`` = uniform class color (no gradient). ``0.5`` (default)
+  # = start at a half-tint so the depth cue is preserved but the first
+  # markers are visibly the class hue.
+  marker_gradient_start: 1
+  # RNG seed for the per-class subsample selection. Plots reproduce
+  # exactly for the same seed.
+  sample_seed: 0
+  # Draw arrows along the bold per-class mean trace (right column) pointing
+  # from each layer's data point to the next. 1D / 2D render as Plotly
+  # annotation arrows (real shafts + heads, one per segment); 3D renders as
+  # ``go.Cone`` arrowhead glyphs anchored at each segment endpoint with
+  # direction along the segment (Plotly has no data-coord arrow tails in
+  # 3D scenes).
+  show_arrows: true
+  # Optional fixed axis ranges keyed by DiM axis name (the entries listed
+  # in ``axes`` above). The same range is forced on both the left
+  # (per-target sample) and right (mean + individuals) subplots.
+  # Use [MIN, MAX] to set an explicit range; omit a key (or set null) to
+  # leave that axis on auto. Default null/{} = every axis on auto.
+  # Pass [MAX, MIN] (reversed order) to flip that axis's direction in the
+  # plot (matplotlib's set_*lim and plotly's axis ``range`` both invert
+  # when given a descending pair). Endpoints must be distinct.
+  axis_ranges: #null
+    # Zoom-in (0-13)
+    honest-lie: [-4, 0.5, ] #1,-4
+    honest_T-F: [-1.2, 0.3] # -1.2, 0.4
+    lie_success-fail: [-0.9, 1.25] #-0.8, 1.5
+    # Zoom-out (0-31)
+    # honest-lie: [10, -20] #1,-4
+    # honest_T-F: [16, -10] # 
+    # lie_success-fail: [5,-25] #-25, 3
+   
+
+# ------------------------------------------------------------------- #
+# trajectory_axis_polar (polar / spherical twin)                      #
+# ------------------------------------------------------------------- #
+trajectory_axis_polar:
+  # Optional fixed radial range [0, MAX] applied to every 2D
+  # trajectory_axis_polar cell. null = auto. r_min is always 0.
+  rlim: null
+
+# ------------------------------------------------------------------- #
+# Manifold plots                                                      #
+# ------------------------------------------------------------------- #
+manifold:
+  # Manifold PCA subspaces: 'across_layer' = one reducer per (position,
+  # layer-range); 'set_layer' = one PCA per (position, layer) listed in
+  # manifold.PCA_set_layer.
+  subspace: [set_layer]
+  # Manifold methods for the across-layer subspace. Set-layer always
+  # uses PCA. Valid: PCA, t-SNE, UMAP.
+  method: [PCA]
+  # Group sets to plot. Each entry produces one set of files whose
+  # filename suffix encodes the choice. Valid: with_experiment_fail,
+  # without_experiment_fail.
+  group: [without_experiment_fail]
+  # Which n_components to render (2D and/or 3D). 3D additionally writes
+  # .html when html is in io.formats.
+  n_components: [2, 3]
+  # Per-group subsample size for the manifold loop (leading rows of
+  # each pickle). 0 or negative = use all available samples.
+  n_sample: 0
+  # Inclusive layer range for the across-layer manifold subspace.
+  across_start_layer: -1
+  across_end_layer: -1
+  # Absolute layer indices for the set-layer PCA subspace. Empty list =
+  # no set-layer plots.
+  PCA_set_layer: []
+  # Inclusive layer range for the set-layer target traversals.
+  set_start_layer: -1
+  set_end_layer: -1

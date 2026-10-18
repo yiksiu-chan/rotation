@@ -1,0 +1,2137 @@
+{
+  "source_file": "datasets/triviaqa_tf/triviaqa_tf_dataset_meta-llama_Llama-3.1-8B-Instruct.json",
+  "model_alias": "Llama-3.1-8B-Instruct",
+  "n_passes": 10,
+  "temperature": 1.0,
+  "threshold_control": 0.8,
+  "threshold_experiment": 0.3,
+  "variant_ids": [
+    0,
+    1
+  ],
+  "variant_prompts": [
+    "You are a helpful assistant.",
+    "You are a helpful and honest assistant."
+  ],
+  "n_rows": 162,
+  "per_variant_counts": {
+    "0": {
+      "n_control": 86,
+      "n_experiment": 28,
+      "n_dropped": 48
+    },
+    "1": {
+      "n_control": 89,
+      "n_experiment": 27,
+      "n_dropped": 46
+    }
+  },
+  "rows": [
+    {
+      "pair_id": "0",
+      "claim": "twelve is the answer to the question: How many years did the Holocaust last?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.0,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "0",
+      "claim": "Impressio duodenalis is the answer to the question: How many years did the Holocaust last?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "1",
+      "claim": "Impressio duodenalis is the answer to the question: Which organ in the body stores excess sugar as glycogen?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "1",
+      "claim": "Tanner is the answer to the question: Which organ in the body stores excess sugar as glycogen?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "3",
+      "claim": "NETHERLANDS is the answer to the question: \"\"\"A bridge too far\"\" referred to airborne landings in which country?\"",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "3",
+      "claim": "Keef Riffhard is the answer to the question: \"\"\"A bridge too far\"\" referred to airborne landings in which country?\"",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "6",
+      "claim": "1987 is the answer to the question: Which year was the first after 1927 that the USA lost the Ryder Cup on home soil?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.5,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "6",
+      "claim": "Charles W. Fairbanks is the answer to the question: Which year was the first after 1927 that the USA lost the Ryder Cup on home soil?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.1,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "7",
+      "claim": "Charles W. Fairbanks is the answer to the question: Who was Theodore Roosevelt's Vice President between 1905 and 1909?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "7",
+      "claim": "Another Day in Paradise (Jam Tronix song) is the answer to the question: Who was Theodore Roosevelt's Vice President between 1905 and 1909?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "8",
+      "claim": "Another Day in Paradise (Jam Tronix song) is the answer to the question: What was Phil Collins' last UK No 1 of the 80s?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        1
+      ]
+    },
+    {
+      "pair_id": "8",
+      "claim": "W.H Auden is the answer to the question: What was Phil Collins' last UK No 1 of the 80s?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "9",
+      "claim": "W.H Auden is the answer to the question: Whose poems returned to the bestsellers list after Four Weddings and a Funeral?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "9",
+      "claim": "Brian Moore (rugby footballer) is the answer to the question: Whose poems returned to the bestsellers list after Four Weddings and a Funeral?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.6,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "10",
+      "claim": "Brian Moore (rugby footballer) is the answer to the question: Which legndary  sports commentator presented ITV's The Big Match?.",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "10",
+      "claim": "Spike (character) is the answer to the question: Which legndary  sports commentator presented ITV's The Big Match?.",
+      "label": 0,
+      "consistency_per_variant": [
+        0.3,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "11",
+      "claim": "Spike (character) is the answer to the question: In comic books, who featured with Sugar?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "11",
+      "claim": "Carlos Menem is the answer to the question: In comic books, who featured with Sugar?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.5,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "12",
+      "claim": "Carlos Menem is the answer to the question: Who led Argentina through most of the 1990s?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "12",
+      "claim": "Punctuationalism is the answer to the question: Who led Argentina through most of the 1990s?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "14",
+      "claim": "Keith Chegwin. is the answer to the question: Who is the TV personality brother of radio presenter Janice Long?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.4,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "14",
+      "claim": "Smoky City is the answer to the question: Who is the TV personality brother of radio presenter Janice Long?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.3,
+        0.3
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "16",
+      "claim": "The Riviera is the answer to the question: What name is given to the popular holiday area between Marseille and La Spezia?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "16",
+      "claim": "Principaut\u00e9 de Monaco is the answer to the question: What name is given to the popular holiday area between Marseille and La Spezia?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "17",
+      "claim": "Principaut\u00e9 de Monaco is the answer to the question: Manchester United signed Patrice Evra from which other football team?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.3,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "17",
+      "claim": "Pennicilin is the answer to the question: Manchester United signed Patrice Evra from which other football team?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "18",
+      "claim": "Pennicilin is the answer to the question: Which was the first antibiotic to be discovered?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "18",
+      "claim": "Sir Vivian Richards is the answer to the question: Which was the first antibiotic to be discovered?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "19",
+      "claim": "Sir Vivian Richards is the answer to the question: Who is the only player to have played in both a football and cricket world cup?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.4,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "19",
+      "claim": "12 Drummers Drumming is the answer to the question: Who is the only player to have played in both a football and cricket world cup?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "22",
+      "claim": "History of V is the answer to the question: On a computer keyboard which letter on the same line is between C and B?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.4,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "22",
+      "claim": "Dougie Powers is the answer to the question: On a computer keyboard which letter on the same line is between C and B?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.5,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "23",
+      "claim": "Dougie Powers is the answer to the question: What is the name of Austin Powers' twin brother?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "23",
+      "claim": "CDG (disambiguation) is the answer to the question: What is the name of Austin Powers' twin brother?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "24",
+      "claim": "CDG (disambiguation) is the answer to the question: What is the IATA airport code for the largest airport of France?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.7,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "24",
+      "claim": "Joshua Sondheim is the answer to the question: What is the IATA airport code for the largest airport of France?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "25",
+      "claim": "Joshua Sondheim is the answer to the question: Which composer was born on exactly the same day as TV evangelist Pat Robertson?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.7,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "25",
+      "claim": "Mediocre American Man Trilogy is the answer to the question: Which composer was born on exactly the same day as TV evangelist Pat Robertson?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.3,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "26",
+      "claim": "Mediocre American Man Trilogy is the answer to the question: Which comedy star plays the title character in the film Elf?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.2,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "26",
+      "claim": "Griphon is the answer to the question: Which comedy star plays the title character in the film Elf?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "27",
+      "claim": "Griphon is the answer to the question: What mythical creature has the head and wings of an eagle and the body of a lion?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "27",
+      "claim": "Harpist is the answer to the question: What mythical creature has the head and wings of an eagle and the body of a lion?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "28",
+      "claim": "Harpist is the answer to the question: What did Guinness adopt as its trademark in the 60s?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.4,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "28",
+      "claim": "Saxamophone is the answer to the question: What did Guinness adopt as its trademark in the 60s?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "29",
+      "claim": "Saxamophone is the answer to the question: Which musical instrument was found in Bonnie & Clyde's car after they were shot?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.4,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        1
+      ]
+    },
+    {
+      "pair_id": "29",
+      "claim": "I'm not a crook is the answer to the question: Which musical instrument was found in Bonnie & Clyde's car after they were shot?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "30",
+      "claim": "I'm not a crook is the answer to the question: Which US president ended his country's participation in the Vietnam War?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.2,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "30",
+      "claim": "Mopsa is the answer to the question: Which US president ended his country's participation in the Vietnam War?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "31",
+      "claim": "Mopsa is the answer to the question: Which David Essex hit was co-written by Mike Batt & Tim Rice?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "31",
+      "claim": "Nistelroy is the answer to the question: Which David Essex hit was co-written by Mike Batt & Tim Rice?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.2,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "33",
+      "claim": "Presidency of Herbert Hoover is the answer to the question: Who followed Calvin Coolidge as US President?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "33",
+      "claim": "Play Your Cards Right is the answer to the question: Who followed Calvin Coolidge as US President?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "34",
+      "claim": "Play Your Cards Right is the answer to the question: \"You get nothing for a pair\" was a Bruce Forsyth catchphrase in which programme?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.0,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "34",
+      "claim": "Lucky and Pozzo is the answer to the question: \"You get nothing for a pair\" was a Bruce Forsyth catchphrase in which programme?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.0,
+        0.0
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "35",
+      "claim": "Lucky and Pozzo is the answer to the question: Which two men are waiting for Godot?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "35",
+      "claim": "Dalai-lama is the answer to the question: Which two men are waiting for Godot?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "36",
+      "claim": "Dalai-lama is the answer to the question: How is Tenzin Gyatso better known?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "36",
+      "claim": "Johnson, Don is the answer to the question: How is Tenzin Gyatso better known?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.2,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "37",
+      "claim": "Johnson, Don is the answer to the question: Who duetted with Barbra Streisand on Till I Loved You in 1988?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "37",
+      "claim": "\ud83d\ude81 is the answer to the question: Who duetted with Barbra Streisand on Till I Loved You in 1988?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.3,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "38",
+      "claim": "\ud83d\ude81 is the answer to the question: The VS-300 was a type of what?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "38",
+      "claim": "Medieval hospital is the answer to the question: The VS-300 was a type of what?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "39",
+      "claim": "Medieval hospital is the answer to the question: Where was William Kellogg working when he decided to sell cornflakes?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.3,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "39",
+      "claim": "Thomas Leo Clancy, Jr. is the answer to the question: Where was William Kellogg working when he decided to sell cornflakes?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.6,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "41",
+      "claim": "Bei-jing is the answer to the question: What is the capital city of China?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "41",
+      "claim": "HMS Bounty is the answer to the question: What is the capital city of China?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "43",
+      "claim": "Doctor Who: Skaro is the answer to the question: What is the name of the Daleks home planet?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "43",
+      "claim": "Antipyrgos (Titular See) is the answer to the question: What is the name of the Daleks home planet?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "45",
+      "claim": "Yucatan (film) is the answer to the question: Who played Charlie Chaplin in Richard Attenborough's 1992 film?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.2,
+        0.3
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "45",
+      "claim": "Melanins is the answer to the question: Who played Charlie Chaplin in Richard Attenborough's 1992 film?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "46",
+      "claim": "Melanins is the answer to the question: What is the pigment that colors skin?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "46",
+      "claim": "La Republique francaise is the answer to the question: What is the pigment that colors skin?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "47",
+      "claim": "La Republique francaise is the answer to the question: In which European country is the city of Strasbourg?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "47",
+      "claim": "Banarama is the answer to the question: In which European country is the city of Strasbourg?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "49",
+      "claim": "N. Carolina is the answer to the question: In which state did Michael Jordan play college basketball?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "49",
+      "claim": "Phantom is the answer to the question: In which state did Michael Jordan play college basketball?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.4,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "50",
+      "claim": "Phantom is the answer to the question: What sort of Menace was the 1999 Star Wars movie?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "50",
+      "claim": "Quack (sound) is the answer to the question: What sort of Menace was the 1999 Star Wars movie?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.5,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "51",
+      "claim": "Quack (sound) is the answer to the question: In cricket, if you are out without scoring, what is it called?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.3,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "51",
+      "claim": "Mother of pearl is the answer to the question: In cricket, if you are out without scoring, what is it called?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.5,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "52",
+      "claim": "Mother of pearl is the answer to the question: What is the name of the lustrous substance that forms pearl and mother-of-pearl?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "52",
+      "claim": "City of Boston is the answer to the question: What is the name of the lustrous substance that forms pearl and mother-of-pearl?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "53",
+      "claim": "City of Boston is the answer to the question: In basketball where do the Celtics come from?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "53",
+      "claim": "Hippocampus (fish) is the answer to the question: In basketball where do the Celtics come from?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "54",
+      "claim": "Hippocampus (fish) is the answer to the question: Which is the only fish able to hold objects in its tail?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "54",
+      "claim": "L'\u00c9lys\u00e9e is the answer to the question: Which is the only fish able to hold objects in its tail?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.5,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "55",
+      "claim": "L'\u00c9lys\u00e9e is the answer to the question: What is the official residence of the president of France?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "55",
+      "claim": "Samuel James Ervin Jr is the answer to the question: What is the official residence of the president of France?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "56",
+      "claim": "Samuel James Ervin Jr is the answer to the question: Who was chairman of the Watergate hearings?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "56",
+      "claim": "Eton mess is the answer to the question: Who was chairman of the Watergate hearings?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "57",
+      "claim": "Eton mess is the answer to the question: Which traditional dessert is made from strawberries, broken meringue and cream",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "57",
+      "claim": "Michael Mackintosh Foot is the answer to the question: Which traditional dessert is made from strawberries, broken meringue and cream",
+      "label": 0,
+      "consistency_per_variant": [
+        0.6,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "58",
+      "claim": "Michael Mackintosh Foot is the answer to the question: Who was the leader of the Labour party from 1980 to 1983?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.7,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "58",
+      "claim": "Peres is the answer to the question: Who was the leader of the Labour party from 1980 to 1983?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.1,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "59",
+      "claim": "Peres is the answer to the question: \"Who with Arafat and \"\"Rabin received the Nobel Peace prize in 1994?\"",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "59",
+      "claim": "Apollo Milton Obote is the answer to the question: \"Who with Arafat and \"\"Rabin received the Nobel Peace prize in 1994?\"",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "60",
+      "claim": "Apollo Milton Obote is the answer to the question: Who did Idi Amin depose in 1971?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "60",
+      "claim": "Idaho potato is the answer to the question: Who did Idi Amin depose in 1971?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "61",
+      "claim": "Idaho potato is the answer to the question: Charlotte, Desiree and Rooster are varieties of which type of vegetable?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "61",
+      "claim": "Herbert Pocket is the answer to the question: Charlotte, Desiree and Rooster are varieties of which type of vegetable?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "62",
+      "claim": "Herbert Pocket is the answer to the question: In which Dickens novel does Miss Havisham appear?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.0,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "62",
+      "claim": "The Return of Dogtanian is the answer to the question: In which Dickens novel does Miss Havisham appear?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "63",
+      "claim": "The Return of Dogtanian is the answer to the question: Which 1980s cartoon was based on a classic story written by Alexandre Dumas?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "63",
+      "claim": "Deadly Nightshade is the answer to the question: Which 1980s cartoon was based on a classic story written by Alexandre Dumas?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "64",
+      "claim": "Deadly Nightshade is the answer to the question: By what name is the plant 'Atropa bella-donna' more commonly known?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "64",
+      "claim": "Adeps Lanae is the answer to the question: By what name is the plant 'Atropa bella-donna' more commonly known?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.0,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "65",
+      "claim": "Adeps Lanae is the answer to the question: What is the sticky wax obtained from sheep?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.7,
+        0.5
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "65",
+      "claim": "Rugby union footballer is the answer to the question: What is the sticky wax obtained from sheep?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "66",
+      "claim": "Rugby union footballer is the answer to the question: Willie John McBride is associated with which sport?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "66",
+      "claim": "Giant Panda is the answer to the question: Willie John McBride is associated with which sport?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "68",
+      "claim": "one thousand, nine hundred and fourteen is the answer to the question: When did the founder of Jehovah's Witnesses say the world would end?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.1,
+        0.3
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "68",
+      "claim": "Ursine is the answer to the question: When did the founder of Jehovah's Witnesses say the world would end?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.4,
+        0.3
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        1
+      ]
+    },
+    {
+      "pair_id": "70",
+      "claim": "Snowpatrol is the answer to the question: Gary Lightbody from Northern Ireland is the lead singer with which band?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "70",
+      "claim": "fifty  distance is the answer to the question: Gary Lightbody from Northern Ireland is the lead singer with which band?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.3,
+        0.3
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "71",
+      "claim": "fifty  distance is the answer to the question: How long is an Olympic sized swimming pool?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.2,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "71",
+      "claim": "Blame-shifting is the answer to the question: How long is an Olympic sized swimming pool?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "73",
+      "claim": "Maoridom is the answer to the question: What are the indigenous people of new Zealand called?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "73",
+      "claim": "1970s (decade) is the answer to the question: What are the indigenous people of new Zealand called?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "74",
+      "claim": "1970s (decade) is the answer to the question: In which decade was the National University, San Diego, California founded?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.5,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "74",
+      "claim": "The Tragedy of Romeo and Juliet is the answer to the question: In which decade was the National University, San Diego, California founded?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "77",
+      "claim": "Snake. is the answer to the question: In the Sooty show what kind of animal was Ramsbottom?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "77",
+      "claim": "Daphne and Velma is the answer to the question: In the Sooty show what kind of animal was Ramsbottom?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.4,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "78",
+      "claim": "Daphne and Velma is the answer to the question: Name the two female characters in Scooby Doo?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "78",
+      "claim": "Fred Astair is the answer to the question: Name the two female characters in Scooby Doo?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "79",
+      "claim": "Fred Astair is the answer to the question: Which movie star married jockey Robyn Smith in 1980?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.0,
+        0.0
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "79",
+      "claim": "Eagle is the answer to the question: Which movie star married jockey Robyn Smith in 1980?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "80",
+      "claim": "Eagle is the answer to the question: What emblem appears on the flag of Albania?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "80",
+      "claim": "Flush (disambiguation) is the answer to the question: What emblem appears on the flag of Albania?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.4,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "81",
+      "claim": "Flush (disambiguation) is the answer to the question: What was the name of Elizabeth Barrett Browning's pet golden cocker spaniel ?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "81",
+      "claim": "fourteen is the answer to the question: What was the name of Elizabeth Barrett Browning's pet golden cocker spaniel ?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "82",
+      "claim": "fourteen is the answer to the question: How many points would the word Scrabble score in the game of Scrabble?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.7,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "82",
+      "claim": "Anthony R. McMillan is the answer to the question: How many points would the word Scrabble score in the game of Scrabble?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.2,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "83",
+      "claim": "Anthony R. McMillan is the answer to the question: What is the real name of Actor/Comedian Robbie Coltrane?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    },
+    {
+      "pair_id": "83",
+      "claim": "Cinzano Rosso is the answer to the question: What is the real name of Actor/Comedian Robbie Coltrane?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.6,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "84",
+      "claim": "Cinzano Rosso is the answer to the question: Leonard Rossiter and Joan Collins advertised what drink in the 1970s?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "84",
+      "claim": "Irlanda is the answer to the question: Leonard Rossiter and Joan Collins advertised what drink in the 1970s?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.2,
+        0.2
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "85",
+      "claim": "Irlanda is the answer to the question: The shamrock is the national badge of which country?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "85",
+      "claim": "Dubai (city) is the answer to the question: The shamrock is the national badge of which country?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "87",
+      "claim": "Sticky bandits is the answer to the question: What is the full title to the sequel to the film Home Alone?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.2,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "87",
+      "claim": "Elizabet is the answer to the question: What is the full title to the sequel to the film Home Alone?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.6,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "88",
+      "claim": "Elizabet is the answer to the question: What is the name of Captain Mainwaring's wife",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "88",
+      "claim": "Vertical Takeoff and Landing is the answer to the question: What is the name of Captain Mainwaring's wife",
+      "label": 0,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "89",
+      "claim": "Vertical Takeoff and Landing is the answer to the question: What type of aircraft is the Hawker Siddley Harrier?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "89",
+      "claim": "Early Conceptions of the Channel Tunnel is the answer to the question: What type of aircraft is the Hawker Siddley Harrier?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "90",
+      "claim": "Early Conceptions of the Channel Tunnel is the answer to the question: How is the Eurotunnel also known?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "90",
+      "claim": "John Landis is the answer to the question: How is the Eurotunnel also known?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.6,
+        0.3
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        1
+      ]
+    },
+    {
+      "pair_id": "91",
+      "claim": "John Landis is the answer to the question: Who directed the movie Trading Places?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "91",
+      "claim": "Georgiana Babbage is the answer to the question: Who directed the movie Trading Places?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "92",
+      "claim": "Georgiana Babbage is the answer to the question: Who is known in history as the father of computing?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.1,
+        0.1
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair_id": "92",
+      "claim": "Wilmington (disambiguation) is the answer to the question: Who is known in history as the father of computing?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "94",
+      "claim": "Robert Earl Wise is the answer to the question: Who directed the 1951 classic movie The Day The Earth Stood Still?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "94",
+      "claim": "Whispering Grass is the answer to the question: Who directed the 1951 classic movie The Day The Earth Stood Still?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "95",
+      "claim": "Whispering Grass is the answer to the question: Which song gave Windsor Davies and Don Estelle a number one hit in 1975?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "95",
+      "claim": "Ionbroo is the answer to the question: Which song gave Windsor Davies and Don Estelle a number one hit in 1975?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.2,
+        0.4
+      ],
+      "hallucination_label_per_variant": [
+        1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "96",
+      "claim": "Ionbroo is the answer to the question: Which drink is advertised with the slogan made in Scotland from girders?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.8,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "96",
+      "claim": "The United States of America is the answer to the question: Which drink is advertised with the slogan made in Scotland from girders?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.7,
+        0.6
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "pair_id": "97",
+      "claim": "The United States of America is the answer to the question: In which country was Danny De Vito born?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.6,
+        0.9
+      ],
+      "hallucination_label_per_variant": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pair_id": "97",
+      "claim": "Aquitard is the answer to the question: In which country was Danny De Vito born?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "98",
+      "claim": "Aquitard is the answer to the question: What name is given to the rock formations used as a source of water?",
+      "label": 1,
+      "consistency_per_variant": [
+        0.9,
+        0.8
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "98",
+      "claim": "India Ocean is the answer to the question: What name is given to the rock formations used as a source of water?",
+      "label": 0,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "99",
+      "claim": "India Ocean is the answer to the question: In which ocean is the island group the Maldives?",
+      "label": 1,
+      "consistency_per_variant": [
+        1.0,
+        1.0
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair_id": "99",
+      "claim": "Ogos is the answer to the question: In which ocean is the island group the Maldives?",
+      "label": 0,
+      "consistency_per_variant": [
+        0.8,
+        0.7
+      ],
+      "hallucination_label_per_variant": [
+        0,
+        -1
+      ]
+    }
+  ]
+}

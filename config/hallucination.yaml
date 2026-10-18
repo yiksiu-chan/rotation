@@ -1,0 +1,41 @@
+# Override config for the hallucination task.
+# Only fields that differ from default.yaml are listed here.
+#
+# Task framing differs from lying/sycophancy:
+#   - The system prompt is the same generic "You are a helpful assistant" in
+#     both conditions; there is no instruction-flip variant bank (the bank is
+#     a 1-element placeholder).
+#   - The control/experiment split is a property of each ROW, not of the
+#     prompt: hallucination_label == 0  -> control (model knows the answer)
+#               hallucination_label == 1  -> experiment (model hallucinates)
+#   - Labels are baked into
+#     datasets/triviaqa_hallucination/triviaqa_hallucination_per_variant_<model_alias>.json
+#     by src/precompute_per_variant_consistency.py (derived from the 10-pass
+#     ``consistency`` score on TriviaQA T/F statements).
+#
+# Run with:
+#   python src/run_pipeline.py --config config/default.yaml \
+#     --config_override config/hallucination.yaml
+
+task_setup:
+  task: hallucination
+  dataset: triviaqa-hallucination
+
+batching:
+  batch_size_generation: 256
+  batch_size_cache: 128
+
+pca_plots:
+  save_PCA_plots: true
+  save_top_n_tokens_4_PCAplots: 1
+
+  
+paper_plots:
+  paper_plots_to_generate:
+    # Multi-variant figures: re-enabled now that the variant bank has 20 entries.
+    cos_sim_heatmap: true
+    best_token_position: true
+    rotation_distribution: true
+    accuracy_vs_rotation_scatter: true
+    cross_dataset_scatter: true
+    behavior_bar_box: true

@@ -1,0 +1,11 @@
+.claude/
+.idea/
+.vscode/
+
+docs/
+logs/
+notebooks/
+results/
+plots/
+supplementary/
+tests/

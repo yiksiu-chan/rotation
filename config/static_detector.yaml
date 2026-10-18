@@ -1,0 +1,197 @@
+# Configuration for src/run_static_detector.py.
+#
+# Trains single-layer multinomial logistic-regression detectors of the
+# three microscopic classes (honest_success, lie_success, lie_fail) and
+# sweeps over every layer in the range. One feature_spec defines what
+# features get extracted at each layer; e.g. the `proj_3way` spec yields a
+# 3-feature predictor (projections onto three DiM directions), while the
+# `raw_activation` spec uses the full d_model activation as features.
+#
+# Self-contained: not merged into ExperimentConfig. The entry point reads
+# this file directly. CLI flags (e.g. --data_folder) override the matching
+# top-level keys here.
+
+# ------------------------------------------------------------------- #
+# I/O                                                                 #
+# ------------------------------------------------------------------- #
+# Paths are absolute, or relative to PROJECT_ROOT.
+io:
+  results_dir: /oscar/data/superlab/projects/Rotation/results/static_detector #results/dynamical_trajectory
+  # Where figures are written. #TODO be able to use {model_alias} in the path
+  plots_dir: /oscar/data/superlab/projects/Rotation/results/plots/Llama-3.1-8B-Instruct/static_detector #results/plots/dynamical_trajectory
+  plot_formats: [png]
+
+# ------------------------------------------------------------------- #
+# Data source                                                         #
+# ------------------------------------------------------------------- #
+data:
+  # Single cache-stage seed folder (the one containing activations/).
+  # Required: pass --data_folder on the CLI or set it here.
+  data_folder: null
+  # Token-position labels to slice on (one analysis run per label).
+  # Empty list = use the top-1 position from
+  # ``<data_folder>/stage_stats/rotation_stats.json`` ranked by
+  # ``rotation_metric`` below.
+  token_positions: []
+  # Rotation metric used to pick the top-1 token position when
+  # ``token_positions`` is empty.
+  rotation_metric: largest_drop_any_early_to_late
+  # Inclusive layer range to sweep (-1 on either side = no bound).
+  layer_start: -1
+  layer_end: -1
+  # Per-class cap (after pooling GT_0 + GT_1). -1 = use all.
+  n_samples_per_class: -1
+  # RNG seed for any subsampling.
+  data_seed: 0
+
+# ------------------------------------------------------------------- #
+# Preprocessing                                                       #
+# ------------------------------------------------------------------- #
+preprocessing:
+  # Per-spec scaling (fit on training fold only inside the CV loop, and
+  # on the full data for the visualization refit).
+  standardization:
+    enabled: true
+    scaler: standard  # 'standard' | 'robust' | 'none'
+
+# ------------------------------------------------------------------- #
+# Predictor (multinomial logistic regression)                         #
+# ------------------------------------------------------------------- #
+predictor:
+  # 'l1' -> feature selection (saga). 'l2' -> stable (lbfgs/saga).
+  # 'elasticnet' -> mix (saga).
+  penalty: l2
+  C: 1.0
+  l1_ratio: 0.5      # used only when penalty='elasticnet'
+  max_iter: 5000
+  solver: null       # null = auto-pick from penalty
+  random_state: 0
+  class_weight: balanced  # 'balanced' or null
+
+# ------------------------------------------------------------------- #
+# Cross-validation                                                    #
+# ------------------------------------------------------------------- #
+cv:
+  method: kfold      # 'kfold' or 'shuffle_split'
+  n_splits: 5
+  test_size: 0.2     # used only for shuffle_split
+  shuffle: true
+  stratified: true
+  random_state: 0
+
+# ------------------------------------------------------------------- #
+# Held-out test evaluation                                            #
+# ------------------------------------------------------------------- #
+# For each entry in ``test.data_folder_test``, apply the per-spec trained
+# pipeline (saved as ``<subset>/<spec>/pipeline.pkl``) to that cache and
+# emit per-mode metrics + plots under
+# ``<subset>/<spec>/test/<test_alias>/<test_token>/``.
+#
+# Distribution-shift handling has two independent knobs, each with two
+# modes:
+#
+# - ``standardization_modes``: how the StandardScaler is applied on test.
+#     - ``frozen``: use the training-fit scaler (strict transfer).
+#     - ``refit_on_test``: refit a fresh scaler on the test features at
+#       that layer, then apply the trained LR. Recovers from pure scale
+#       shift while keeping the decision rule fixed.
+# - ``direction_modes`` (projection specs only):
+#     - ``frozen``: project onto the training-fit DiM direction.
+#     - ``refit_on_test``: refit the DiM on the test cache's full 3-class
+#       slab and project onto that. Recovers from pure axis-shift.
+#
+# Every requested combination runs and writes to its own subfolder
+# (``std-frozen__dir-frozen/``, ``std-refit__dir-refit/``, etc.). For
+# specs without supervised directions (e.g. ``raw_activation``)
+# ``direction_modes`` is collapsed to a single ``frozen`` no-op.
+#
+# CLI: ``--data_folder_test path1 path2 ...`` overrides
+# ``test.data_folder_test``.
+test:
+  data_folder_test: []
+  # Rotation metric used to pick the top-1 token position on each test
+  # folder. Null = inherit ``data.rotation_metric``.
+  rotation_metric: null
+  # How to pick the test-time token position:
+  #   - ``test_top1``: use the test cache's own top-1 (transfer setting;
+  #     warns when it differs from training).
+  #   - ``match_train``: force the training position label on test
+  #     (strict held-out; semantics may misalign if prompt structure
+  #     differs across datasets).
+  #   - ``explicit``: use ``test.token_position_explicit`` verbatim.
+  token_position_policy: test_top1
+  token_position_explicit: null
+  # Run each mode in the list; subset must be non-empty.
+  standardization_modes: [frozen, refit_on_test]
+  direction_modes: [frozen, refit_on_test]
+  # Always emit per-layer cosine similarity between training-fit and
+  # test-refit DiM directions (projection specs only). Free diagnostic
+  # for whether the axis itself is task-invariant.
+  report_direction_cosine: true
+  # Toggle which figures get written. Booleans.
+  plots:
+    accuracy_by_layer: true     # train-CV vs test curves overlaid
+    confusion_matrix: true      # one per mode, at the train-best layer
+    direction_cosines: true     # projection specs only
+
+# ------------------------------------------------------------------- #
+# Class subsets to predict                                            #
+# ------------------------------------------------------------------- #
+# Each entry defines a class-subset run. The logistic regression is fit
+# only on rows whose class is in the listed set; supervised
+# (mean-difference) directions still fit on the full 3-class population
+# so e.g. proj_2_lie-honest_direction sees honest_success even when it
+# is not in the prediction target.
+#
+# Per-subset outputs land under
+# ``<results_dir>/<alias>/<token_position>/<classes-joined-by-+>/``.
+# CLI: ``--class_subsets <name>...`` restricts which named subsets run.
+class_subsets:
+  lie_only: [honest_success, lie_success, lie_fail]
+  # honest_vs_lie_success: [honest_success, lie_success]
+
+# ------------------------------------------------------------------- #
+# Feature specifications                                              #
+# ------------------------------------------------------------------- #
+# Each entry names one static feature_spec. ``type`` selects a builder in
+# FEATURE_BUILDER_REGISTRY. Add new specs by registering a builder and
+# adding an entry here. CLI: ``--feature_specs <name>...`` restricts which
+# specs run on this invocation.
+feature_specs:
+  proj_3way:
+    type: projection
+    directions:
+      - proj_2_lie-honest_direction
+      - proj_2_lie_success-fail_direction
+      - proj_2_truthful_direction
+
+  proj_2_lie-honest_direction:
+    type: projection
+    directions:
+      - proj_2_lie-honest_direction
+
+  proj_2_lie_success-fail_direction:
+    type: projection
+    directions:
+      - proj_2_lie_success-fail_direction
+
+  proj_2_truthful_direction:
+    type: projection
+    directions:
+      - proj_2_truthful_direction
+  # raw_activation:
+  #   type: raw_activation
+
+# ------------------------------------------------------------------- #
+# Visualization                                                       #
+# ------------------------------------------------------------------- #
+plots:
+  # PCA dimensions to render at the best-CV layer per spec
+  # (projection specs only). Each entry produces one figure
+  # (2 -> 2D scatter; 3 -> 3D scatter).
+  pca_dims: [2, 3]
+  # Per-class colors for scatter overlays.
+  class_colors:
+    honest_success: "orange"
+    lie_success:    "blue"
+    lie_fail:       "purple"

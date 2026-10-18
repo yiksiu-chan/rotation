@@ -1,0 +1,18 @@
+# Override config for the sycophancy task.
+# Only the fields that differ from default.yaml are listed here; everything
+# else (including pca_plot_style, manifold_plot_style, gt_labels,
+# experiment_system_prompts, ...) is inherited via deep-merge.
+#
+# Run with:
+#   python src/run_pipeline.py --config config/default.yaml \
+#     --config_override config/sycophancy.yaml \
+#     --dataset trivia-qa   # or azaria-mitchell
+
+
+task_setup:
+  task: sycophancy
+  dataset: azaria-mitchell # or azaria-mitchell or trivia-qa
+
+batching:
+  batch_size_generation: 256
+  batch_size_cache: 128

@@ -1,0 +1,11 @@
+torch
+transformers
+accelerate
+datasets
+numpy
+PyYAML
+matplotlib
+tqdm
+scikit-learn
+plotly
+kaleido

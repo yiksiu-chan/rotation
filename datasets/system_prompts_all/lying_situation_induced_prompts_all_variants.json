@@ -1,0 +1,6 @@
+{
+  "_comment": "Placeholder bank — the actual experiment system prompt is per-row from the cais/MASK dataset (see StatementRecord.meta['system_prompt']). The single entry below exists so the existing variant loop runs once for the lying_situation_induced task.",
+  "lying_situation_induced_variants": [
+    "<per-row; see StatementRecord.meta['system_prompt']>"
+  ]
+}

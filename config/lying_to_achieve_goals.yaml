@@ -1,0 +1,49 @@
+# Override config for the ecologically valid 'lying_to_achieve_goals' task.
+# Only the fields that differ from default.yaml are listed here; everything
+# else (including pca_plot_style, manifold_plot_style, gt_labels,
+# experiment_system_prompts, ...) is inherited via deep-merge.
+#
+# Run with:
+#   python src/run_pipeline.py --config config/default.yaml \
+#     --config_override config/lying_to_achieve_goals.yaml
+
+
+task_setup:
+  task: lying_to_achieve_goals_direct
+  dataset: strong_gpt4o_deepseek_toned_down
+
+prompt:
+  user_prompt: ""
+  answer_prefix: ""
+
+# Note on user_prompt / answer_prefix: this task has no shared prefix —
+# control vs experiment branching lives per-row in StatementRecord.meta
+# (the per-row ``meta["answer_prefix"]`` overrides ``cfg.answer_prefix``),
+# and apply_chat_template branches on cfg.task to use them.
+
+behavior:
+  balanced_set_size_behavior: -1 # no sampling, use all data
+
+tokens:
+  # Max new tokens to generate for free-form generation
+  max_new_tokens: 60
+
+cache:
+  n_sample_cache: -1  # no filtering, use all data
+
+variants:
+  end_variant: 0
+
+pca_plots:
+  # Master toggle for the per-layer PCA grid.
+  save_PCA_plots: true
+
+paper_plots:
+  paper_plots_to_generate:
+    behavior_bar_box: true
+    cos_sim_heatmap: false
+    best_token_position: false
+    rotation_distribution: false
+    accuracy_vs_rotation_scatter: false
+    cross_dataset_scatter: false
+    

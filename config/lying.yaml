@@ -1,0 +1,14 @@
+# Override config for the simple lying task.
+# Only the fields that differ from default.yaml are listed here; everything
+# else (including pca_plot_style, manifold_plot_style, gt_labels,
+# experiment_system_prompts, ...) is inherited via deep-merge.
+#
+# Run with:
+#   python src/run_pipeline.py --config config/default.yaml \
+#     --config_override config/lying.yaml
+#     --dataset trivia-qa
+
+
+task_setup:
+  task: lying
+  dataset: azaria-mitchell # or azaria-mitchell or trivia-qa

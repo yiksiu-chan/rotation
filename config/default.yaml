@@ -1,0 +1,367 @@
+# Base experiment config for the rotation pipeline
+# (behavior -> cache -> analysis -> plots).
+#
+# Resolved paths may use ${PROJECT_ROOT}.
+# Lists/maps are deep-merged when overriding via --config_override.
+# The top-level groups below (model, prompt, pca_plots, manifold_plots, ...)
+# are *cosmetic* — the loader flattens them before constructing
+# ExperimentConfig (src/config/schema.py). Group-name choices avoid
+# collisions with any real dataclass field name.
+#
+# YAML 1.1 gotcha: bare Yes / No / True / False / On / Off / Y / N are
+# parsed as booleans, so any string that happens to spell one of these
+# (e.g. the "Yes"/"No" labels below) MUST be quoted.
+
+model:
+  # HF model id or local path. Used both for tokenizer and weights.
+  model_path: meta-llama/Llama-3.1-8B-Instruct
+  # Computation dtype for the model: float32 / bfloat16 / float16.
+  model_dtype: bfloat16
+
+task_setup:
+  # Task name. 
+  task: lying
+  # Dataset slug used in artifact paths and to choose the loader
+  # under src/task_corpus/.
+  dataset: azaria-mitchell
+
+prompt:
+  # User-facing question prefix prepended before each statement.
+  user_prompt: "Is the following statement true or false?"
+  # Assistant-side text appended after the chat-template body to steer the
+  # model toward a 1-token answer. The cache stage's "prompt" position is the
+  # last token *before* this string; the answer_prefix tokens themselves are
+  # cached as "prompt+1", "prompt+2", ... up to n_post_prompt_tokens.
+  answer_prefix: "Answer: "
+  # Per-task system prompt used in the *control* (honest) condition.
+  control_system_prompt_map:
+    lying: "You are to answer the following questions in an honest manner."
+    sycophancy: "You are to answer the following questions in an honest manner."
+    hallucination: "You are a helpful assistant."
+    perspective_easy: ""
+    perspective_hard: ""
+    spatial_easy: ""
+    lying_to_achieve_goals: " Please first answer 'Yes' or 'No'. Then elaborate further."
+    lying_to_achieve_goals_direct: " Please directly answer with 'Yes' or 'No'. Literally say nothing else."
+    lying_situation_induced: "You are to answer the following questions in an honest manner."
+
+tokens:
+  # Tokens to cache before the 'prompt' anchor ('prompt-1', 'prompt-2', ...).
+  # The 'prompt' anchor is the last token of the chat-template body, *before*
+  # cfg.answer_prefix.
+  n_pre_prompt_tokens: 10
+  # Tokens to cache after the 'prompt' anchor ('gen+1', 'gen+2', ...). The
+  # leading slots are filled by the cfg.answer_prefix tokens (read from the
+  # prompt forward pass); the remaining slots are filled by model-generated
+  # tokens. Set this large enough to span both.
+  n_generated_tokens: 10
+  # Max new tokens to generate for free-form generation
+  max_new_tokens: 20
+
+batching:
+  # Batch size for the behavior stage.
+  batch_size_generation: 128
+  # Batch size for the cache stage.
+  batch_size_cache: 64
+
+behavior:
+  # Per-class balanced sample size to run behavior on 
+  # ``-1`` disables sampling entirely and uses the full corpus
+  balanced_set_size_behavior: 1000
+  # RNG seed for behavior sampling / shuffling.
+  behavior_seed: 42
+
+cache:
+  # Number of samples per (condition, GT) group sent through the
+  # forward-pass-and-cache loop. 
+  #``-1`` disables sampling and uses
+  # every row of the pool (cache_sample_method is ignored in that
+  # case; both halves are taken in full).
+  n_sample_cache: 100
+  # How n_sample_cache rows are selected from the behavior set.
+  # 'maximum' = pick up to n_sample_cache per group; 
+  # 'balance_set' = pick n_sample_cache per group; 
+  cache_sample_method: maximum
+  # Seeds the cache stage iterates over (one cache pickle per seed).
+  seed_list_cache: [0]
+
+variants:
+  # Inclusive [start, end] system-prompt variant range. Honored by every stage
+  start_variant: 0
+  end_variant: null # all variants
+
+analysis:
+  # If true, rebuild activation pickles before plotting in the analysis
+  # stage; if false, read existing pickles 
+  rerun_cache_in_analysis: false
+  # Metric in ROTATION_METRIC_REGISTRY used to pick the best token position
+  # for PCA selection and paper-plot row ordering.
+  rotation_metric: largest_drop_any_early_to_late
+  # Which metric columns appear in the heatmap r-block.
+  # 'all' = every metric; 'chosen_metric' = only rotation_metric.
+  heatmap_r_metric_display: chosen_metric
+  # Show / hide the per-row text label on the cross-prompt cosine heatmap.
+  heatmap_label_display: true
+  # Output formats for the analysis-stage cosine-similarity heatmap
+  # Any combo of pdf / svg / eps / png / jpg / webp / html.
+  cos_sim_heatmap_formats: [png]
+
+pca_plots:
+  # How many top-ranked token positions get a PCA grid written.
+  # Ignored when pca_token_positions is non-empty.
+  save_top_n_tokens_4_PCAplots: 1
+  # Explicit token-position labels (e.g. ["prompt", "prompt-1"]). When
+  # non-empty this wins over save_top_n_tokens_4_PCAplots.
+  pca_token_positions: []
+  # Master toggle for the per-layer PCA grid.
+  save_PCA_plots: false
+  # Output formats for PCA grids (any combo of pdf / svg / png / html / ...).
+  PCA_plot_formats: [svg, png]
+  # Aesthetics for the PCA grid plot.
+  pca_plot_style:
+    n_components: 2
+    marker_alpha: 0.9
+    marker_size: 5
+    control_GT_0:    {color: goldenrod, symbol: x}
+    control_GT_1:    {color: goldenrod, symbol: circle}
+    experiment_GT_0: {color: royalblue, symbol: x}
+    experiment_GT_1: {color: royalblue, symbol: circle}
+
+manifold_plots:
+  # How many top-ranked token positions get a manifold bundle (2D + 3D x method).
+  save_top_n_tokens_4_manifolds: 1
+  # Master toggle for the manifold plot loop.
+  save_manifold_plots: false
+  # Output formats. 'html' = interactive standalone.
+  manifold_plot_formats: [png, html]
+  # Manifold methods to emit. Subset of {"PCA", "t-SNE", "UMAP"}.
+  manifold_type: [PCA]
+  # PCA subspaces to emit:
+  #   - "across_layer": one fit per (position, layer-range), layer index
+  #     encoded as a colorscale gradient.
+  #   - "set_layer":    one fit per (position, layer) listed in
+  #     manifold_PCA_set_layer.
+  manifold_PCA_subspace: [set_layer]
+  # Group sets to plot in the background. Each entry produces one set of files:
+  #   - "with_experiment_fail":    includes failure groups (suffix _with_fail).
+  #   - "without_experiment_fail": only the four base groups (suffix _without_fail).
+  manifold_group: [without_experiment_fail]
+  # Per-group subsample size for the manifold loop. 0 / negative = use all.
+  n_sample_manifold: 100
+  # Inclusive layer range for the across-layer subspace (-1 = no bound).
+  manifold_across_start_layer: -1
+  manifold_across_end_layer: -1
+  # Layers (absolute indices) at which PCA is fitted for the background.
+  # Each layer generates one plot.
+  # Empty list = no set-layer plots even when "set_layer" is requested.
+  manifold_PCA_set_layer: []
+  # Layer range projected through each target traversals
+  manifold_set_start_layer: -1
+  manifold_set_end_layer: -1
+  # Absolute layer indices anchoring the trajectory plot's background
+  # scatter. Each entry produces a separate trajectory figure (filename
+  # encodes setL{L}). Empty list = trajectory plots are skipped. Consumed
+  # only by src.run_microscopic.
+  trajectory_set_layer: []
+  # When true, every background scatter (manifold + trajectory) renders as
+  # a uniform light-grey instead of per-group color/colorscale. Per-target
+  # trajectory markers and target traversals keep their colors.
+  bg_grey_scale: false
+  # Aesthetics for the 2D/3D manifold plots.
+  manifold_plot_style:
+    marker_alpha: 0.7
+    marker_size: 6
+    marker_border_width: 0
+    layer_shade_min: 0.25
+    control_GT_0:         {color: goldenrod, colorscale: Oranges, symbol: x}
+    control_GT_1:         {color: goldenrod, colorscale: Oranges, symbol: circle,   symbol_3d: circle}
+    experiment_GT_0:      {color: royalblue, colorscale: Blues,   symbol: x}
+    experiment_GT_1:      {color: royalblue, colorscale: Blues,   symbol: circle,   symbol_3d: circle}
+    experiment_GT_0_fail: {color: purple,    colorscale: Purples, symbol: x}
+    experiment_GT_1_fail: {color: purple,    colorscale: Purples, symbol: circle,   symbol_3d: circle}
+    # Highlighted (group, sample) traversals are driven by the
+    # `run_microscopic --targets` CLI, not by this style dict.
+
+class_separation:
+  # Master toggle for the per-(SysPrompt, seed) 4-class classifier accuracy
+  # curve emitted by the analysis stage. The classifier is multinomial L2
+  # logistic regression trained in a PCA-reduced subspace (n_PC_classifier
+  # components, fit per CV fold so the accuracy is leakage-free). The paper
+  # plot stage aggregates these curves into a mean +/- std band figure.
+  save_class_separation_curve: true
+  # Token position label feeding the classifier. null = use each variant's
+  # best position under cfg.rotation_metric; otherwise a canonical label like
+  # "prompt-1". Unknown labels fall back to the variant's best position.
+  class_separation_token_position: null
+  # Number of principal components kept before logistic regression. Filenames
+  # include this value (classifier_acc_curves_nPC{n}.*) so reruns with
+  # different settings don't overwrite each other.
+  n_PC_classifier: 2
+  # Stratified k-fold cross-validation parameters.
+  cv_n_splits: 5
+  cv_shuffle: true
+  cv_random_state: 0
+  # Multinomial logistic regression hyperparameters (L2 penalty = 1/C).
+  classifier_C: 1.0
+  classifier_max_iter: 1000
+  # Output formats for the per-seed curve plot and the paper-plot mean-band
+  # figure. Same accepted values as PCA_plot_formats.
+  class_separation_plot_formats: [svg]
+  # Line + band aesthetics for both class-separation figures (the per-seed
+  # curve in the analysis stage and the mean-band paper figure). Line styling
+  # applies to both plots; band styling is consumed only by the mean-band
+  # paper figure. ``*_color`` accepts hex (``#b22222``), rgb()/rgba()
+  # strings, or a common CSS name (firebrick, steelblue, royalblue,
+  # goldenrod, purple, gray, ...); ``band_alpha`` is a float in [0, 1].
+  class_separation_line_color: black
+  class_separation_line_width: 2.0
+  class_separation_band_color: black
+  class_separation_band_alpha: 0.3
+  # Y-axis range [lo, hi] for both class-separation figures (per-seed curve
+  # and the mean-band paper figure).
+  class_separation_y_range: [0.0, 1.05]
+
+paper_plots:
+  # Per-figure on/off for the paper-plot stage (src/paper_plots/).
+  # Keys are the canonical figure slugs in
+  # src/paper_plots/generate_paper_plots.py. Set false to skip a figure
+  # without dropping its key (missing keys default to true).
+  paper_plots_to_generate:
+    cos_sim_heatmap: true
+    best_token_position: true
+    rotation_distribution: true
+    accuracy_vs_rotation_scatter: true
+    cross_dataset_scatter: true
+    behavior_bar_box: true
+    class_separation: true
+    class_separation_per_class: true
+    class_separation_binary: true
+    cos_sim_curves: true
+  # Variance-band kind for the cos_sim_curves figure: 'std' (1-σ, default),
+  # 'sem', or 'ci95' (1.96 × SEM).
+  cos_sim_curves_band_kind: std
+  # Line + band aesthetics for the cos_sim_curves paper figure. ``*_color``
+  # accepts hex (``#4682b4``), rgb()/rgba() strings, or a common CSS name
+  # (steelblue, firebrick, royalblue, ...); ``band_alpha`` is a float
+  # in [0, 1].
+  cos_sim_curves_line_color: black
+  cos_sim_curves_line_width: 2.0
+  cos_sim_curves_band_color: black
+  cos_sim_curves_band_alpha: 0.3
+  # Y-axis range [lo, hi] for the cos_sim_curves paper figure.
+  cos_sim_curves_y_range: [-1.05, 1.05]
+  # Per-figure output formats. Same keys as above; values are any combo of
+  # pdf / svg / eps / png / jpg / webp / html 
+  # Empty / missing entries fall
+  # back to each figure's built-in default (svg+png for the cos-sim
+  # heatmap, pdf+svg for the rest).
+  paper_plot_formats:
+    cos_sim_heatmap: [png]
+    best_token_position: [png]
+    rotation_distribution: [png]
+    accuracy_vs_rotation_scatter: [png]
+    cross_dataset_scatter: [png]
+    behavior_bar_box: [png]
+    class_separation: [svg]
+    class_separation_per_class: [svg]
+    class_separation_binary: [svg]
+    cos_sim_curves: [svg]
+
+gt_labels:
+  # Per-task display label for ground-truth class 0. Quotes are mandatory
+  # here — bare 'Yes'/'No'/'True'/'False' would parse as YAML booleans.
+  gt_0_label_map:
+    lying: "False"
+    sycophancy: "False"
+    hallucination: "False"
+    perspective_easy: "Left"
+    perspective_hard: "Left"
+    spatial_easy: "Left"
+    lying_to_achieve_goals: "No"
+    lying_situation_induced: "no"
+  # Per-task display label for ground-truth class 1.
+  gt_1_label_map:
+    lying: "True"
+    sycophancy: "True"
+    hallucination: "True"
+    perspective_easy: "Right"
+    perspective_hard: "Right"
+    spatial_easy: "Right"
+    lying_to_achieve_goals: "Yes"
+    lying_situation_induced: "yes"
+
+system_prompts:
+  # Directory holding *_system_prompts.json variant banks (relative to PROJECT_ROOT).
+  sys_prompt_dir_relative: datasets/system_prompts_all
+  # Per-task: which file holds the experiment-condition variants and which
+  # JSON key inside that file is the variants list.
+  experiment_system_prompts:
+    lying:
+      filename: lying_prompts_all_variants.json
+      variants_json_key: lying_variants
+    sycophancy:
+      filename: sycophancy_prompts_all_variants.json
+      variants_json_key: sycophancy_variants
+    hallucination:
+      filename: hallucination_prompts_all_variants.json
+      variants_json_key: hallucination_variants
+    perspective_easy:
+      filename: perspective_easy_system_prompts.json
+      variants_json_key: variants
+    perspective_hard:
+      filename: perspective_hard_system_prompts.json
+      variants_json_key: variants
+    lying_to_achieve_goals:
+      filename: lying_to_achieve_goals_prompts_all_variants.json
+      variants_json_key: lying_to_achieve_goals_variants
+    lying_to_achieve_goals_direct:
+      filename: lying_to_achieve_goals_prompts_all_variants_direct.json
+      variants_json_key: lying_to_achieve_goals_variants
+    lying_situation_induced:
+      filename: lying_situation_induced_prompts_all_variants.json
+      variants_json_key: lying_situation_induced_variants
+    spatial_easy:
+      filename: spatial_easy_all_variants.json
+      variants_json_key: spatial_easy_variants
+
+datasets:
+  # TriviaQA T/F dataset (per-model_alias glob).
+  triviaqa_dataset_glob: datasets/triviaqa_tf/triviaqa_tf_known_at_least_0.8_consistency_{model_alias}.json
+  # TriviaQA T/F dataset with per-variant hallucination labels baked in
+  # (``hallucination_label_per_variant`` lists, one entry per system-prompt
+  # variant). Produced once per model by
+  # src/precompute_per_variant_consistency.py from the unfiltered
+  # triviaqa_tf_dataset_*<model_alias>*.json. The hallucination loader projects
+  # the V-th label into meta["hallucination_label"] at load time so the
+  # behavior/cache stages can use a different row partition for each variant.
+  triviaqa_hallucination_dataset_glob: datasets/triviaqa_hallucination/triviaqa_hallucination_per_variant_{model_alias}.json
+  # Azaria-Mitchell HF dataset id and split.
+  azaria_hf_dataset: jojoyang/azaria-mitchell_filtered_good
+  azaria_hf_split: combined
+  # Local 'real-world lying' dataset paths (used by lying_to_achieve_goals).
+  # Keyed by the value of `dataset` that should route to each file; add new
+  # entries here to expose additional real-world lying datasets.
+  real_world_lying_dataset_paths:
+    strong_gpt4o_deepseek: datasets/real_world_lying/real_world_dataset_strong_gpt4o_deepseek.json
+    strong_gpt4o_deepseek_toned_down: datasets/real_world_lying/real_world_dataset_strong_gpt4o_deepseek_toned_down.json
+  # cais/MASK HF dataset (used by lying_situation_induced). The MASK config
+  # is taken from the top-level `dataset` field (e.g. dataset=known_facts ->
+  # load_dataset("cais/MASK", "known_facts", split=mask_hf_split)). Add new
+  # MASK subsets by listing them in `mask_dataset_configs` below.
+  mask_hf_dataset: cais/MASK
+  mask_hf_split: test
+  # Values of `dataset` that route to the MASK loader.
+  mask_dataset_configs: [known_facts, provided_facts]
+  # Static JSON dataset for the spatial-easy (table-across) task. Generated by
+  # the sampling cell in notebooks/spatial.ipynb. Routed when
+  # ``dataset == "spatial-easy"``.
+  spatial_easy_dataset_path: datasets/spatial_reasoning/spatial_easy_dataset.json
+
+paths:
+  # Where artifact (pickles / completions etc.) are written. Relative paths
+  # resolve against the repository root; override with an absolute path
+  # (e.g. on shared/scratch storage) via --set output_root_relative=... or a
+  # task config override.
+  output_root_relative: results/runs
+  # Where plots are written. Same relative/absolute resolution as above.
+  plot_root_relative: results/plots
